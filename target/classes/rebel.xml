@@ -6,9 +6,9 @@
 -->
 <application generated-by="maven" build-tool-version="3.8.1" plugin-version="1.1.8" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.zeroturnaround.com" xsi:schemaLocation="http://www.zeroturnaround.com http://update.zeroturnaround.com/jrebel/rebel-2_2.xsd">
 	<classpath fallback="all">
-		<dir name="/Users/gianluca/Tutorial_Parte_Due/tutorial-repo/target/classes">
+		<dir name="/Users/gianluca/Tutorial_Parte_Due/tutorial-share/target/classes">
 		</dir>
-		<dir name="/Users/gianluca/Tutorial_Parte_Due/tutorial-repo/target/test-classes">
+		<dir name="/Users/gianluca/Tutorial_Parte_Due/tutorial-share/target/test-classes">
 		</dir>
 	</classpath>
 

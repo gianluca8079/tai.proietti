@@ -1,22 +1,16 @@
-FROM alfresco/alfresco-content-repository-community:7.1.1
+FROM alfresco/alfresco-share:7.0.0
 
 ARG TOMCAT_DIR=/usr/local/tomcat
 
-USER root
-
 # Copy Dockerfile to avoid an error if no JARs exist
-COPY Dockerfile extensions/*.jar $TOMCAT_DIR/webapps/alfresco/WEB-INF/lib/
+COPY Dockerfile extensions/*.jar $TOMCAT_DIR/webapps/share/WEB-INF/lib/
 
 # Copy Dockerfile to avoid an error if no AMPs exist
-COPY Dockerfile extensions/*.amp $TOMCAT_DIR/amps/
+COPY Dockerfile extensions/*.amp $TOMCAT_DIR/amps_share/
 RUN java -jar $TOMCAT_DIR/alfresco-mmt/alfresco-mmt*.jar install \
-              $TOMCAT_DIR/amps $TOMCAT_DIR/webapps/alfresco -directory -nobackup -force
+              $TOMCAT_DIR/amps_share $TOMCAT_DIR/webapps/share -directory -nobackup -force
 
-COPY alfresco-global.properties $TOMCAT_DIR/shared/classes/alfresco-global.properties
-COPY dev-log4j.properties $TOMCAT_DIR/shared/classes/alfresco/extension
-COPY disable-webscript-caching-context.xml $TOMCAT_DIR/shared/classes/alfresco/extension
+COPY share-config-custom.xml $TOMCAT_DIR/shared/classes/alfresco/web-extension
 
-# Copy Dockerfile to avoid an error if no license file exists
-COPY Dockerfile license/*.* $TOMCAT_DIR/webapps/alfresco/WEB-INF/classes/alfresco/extension/license/
-
-USER ${USERNAME}
+COPY log4j.properties $TOMCAT_DIR/webapps/share/WEB-INF/classes
+COPY hotswap-agent.properties $TOMCAT_DIR/webapps/share/WEB-INF/classes

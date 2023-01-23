@@ -9,10 +9,14 @@ else
 fi
 
 start() {
-    docker volume create tutorial-repo-acs-volume
-    docker volume create tutorial-repo-db-volume
-    docker volume create tutorial-repo-ass-volume
+    docker volume create tutorial-share-acs-volume
+    docker volume create tutorial-share-db-volume
+    docker volume create tutorial-share-ass-volume
     docker-compose -f "$COMPOSE_FILE_PATH" up --build -d
+}
+
+start_share() {
+    docker-compose -f "$COMPOSE_FILE_PATH" up --build -d tutorial-share-share
 }
 
 down() {
@@ -22,12 +26,18 @@ down() {
 }
 
 purge() {
-    docker volume rm -f tutorial-repo-acs-volume
-    docker volume rm -f tutorial-repo-db-volume
-    docker volume rm -f tutorial-repo-ass-volume
+    docker volume rm -f tutorial-share-acs-volume
+    docker volume rm -f tutorial-share-db-volume
+    docker volume rm -f tutorial-share-ass-volume
 }
 
 build() {
+    $MVN_EXEC clean package
+}
+
+build_share() {
+    docker-compose -f "$COMPOSE_FILE_PATH" kill tutorial-share-share
+    yes | docker-compose -f "$COMPOSE_FILE_PATH" rm -f tutorial-share-share
     $MVN_EXEC clean package
 }
 
@@ -39,25 +49,10 @@ tail_all() {
     docker-compose -f "$COMPOSE_FILE_PATH" logs --tail="all"
 }
 
-prepare_test() {
-    $MVN_EXEC verify -DskipTests=true
-}
-
-test() {
-    $MVN_EXEC verify
-}
-
 case "$1" in
   build_start)
     down
     build
-    start
-    tail
-    ;;
-  build_start_it_supported)
-    down
-    build
-    prepare_test
     start
     tail
     ;;
@@ -75,18 +70,11 @@ case "$1" in
   tail)
     tail
     ;;
-  build_test)
-    down
-    build
-    prepare_test
-    start
-    test
-    tail_all
-    down
-    ;;
-  test)
-    test
+  reload_share)
+    build_share
+    start_share
+    tail
     ;;
   *)
-    echo "Usage: $0 {build_start|build_start_it_supported|start|stop|purge|tail|build_test|test}"
+    echo "Usage: $0 {build_start|start|stop|purge|tail|reload_share}"
 esac

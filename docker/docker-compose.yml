@@ -1,56 +1,72 @@
 version: '3.4'
 services:
-#  Optional
-#  tutorial-repo-share:
-#    image: ${docker.share.image}:${alfresco.share.version}
-#    environment:
-#      REPO_HOST: tutorial-repo-acs
-#      REPO_PORT: 8080
-#    ports:
-#      - "${share.port}:8080"
-  tutorial-repo-acs:
-    image: alfresco-content-services-tutorial-repo:development
+  tutorial-share-share:
+    image: alfresco-share-tutorial-share:development
     build:
       dockerfile: ./Dockerfile
       context: ../../../target
     environment:
-      JAVA_TOOL_OPTIONS: "${keystore.settings}"
       CATALINA_OPTS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:8888"
+      REPO_HOST: ${acs.host}
+      REPO_PORT: ${acs.port}
     ports:
-      - "${acs.port}:8080"
-      - "${acs.debug.port}:8888"
-    volumes:
-      - tutorial-repo-acs-volume:/usr/local/tomcat/alf_data
-    depends_on:
-      - tutorial-repo-postgres
-  tutorial-repo-postgres:
-    image: postgres:9.6
-    environment:
-      POSTGRES_DB: alfresco
-      POSTGRES_USER: alfresco
-      POSTGRES_PASSWORD: alfresco
-    command: postgres -c max_connections=300 -c log_min_messages=LOG
-    ports:
-      - "${postgres.port}:5432"
-    volumes:
-      - tutorial-repo-db-volume:/var/lib/postgresql/data
-  tutorial-repo-ass:
-    image: alfresco/alfresco-search-services:1.2.0
-    environment:
-      SOLR_ALFRESCO_HOST: tutorial-repo-acs
-      SOLR_ALFRESCO_PORT: 8080
-      SOLR_SOLR_HOST: tutorial-repo-ass
-      SOLR_SOLR_PORT: 8983
-      SOLR_CREATE_ALFRESCO_DEFAULTS: alfresco,archive
-    ports:
-      - "8983:8983"
-    volumes:
-      - tutorial-repo-ass-volume:/opt/alfresco-search-services/contentstore
-      - tutorial-repo-ass-volume:/opt/alfresco-search-services/data
-volumes:
-  tutorial-repo-acs-volume:
-    external: true
-  tutorial-repo-db-volume:
-    external: true
-  tutorial-repo-ass-volume:
-    external: true
+      - "${share.port}:8080"
+      - "${share.debug.port}:8888"
+# Optional
+#  tutorial-share-acs:
+#    image: ${docker.acs.image}:${alfresco.platform.version}
+#    environment:
+#      JAVA_OPTS: "
+#                -Ddb.driver=org.postgresql.Driver
+#                -Ddb.username=alfresco
+#                -Ddb.password=alfresco
+#                -Ddb.url=jdbc:postgresql://tutorial-share-postgres:5432/alfresco
+#                -Dsolr.host=tutorial-share-ass
+#                -Dsolr.port=8983
+#                -Dsolr.secureComms=none
+#                -Dsolr.base.url=/solr
+#                -Dindex.subsystem.name=solr6
+#                -Dcsrf.filter.enabled=false
+#                -Dmessaging.broker.url=\"vm://localhost?broker.persistent=false\"
+#                -Dtransform.service.enabled=false
+#                -Dlocal.transform.service.enabled=false
+#                -Dlegacy.transform.service.enabled=false
+#                ${keystore.settings}
+#                "
+#    ports:
+#      - "${acs.port}:8080"
+#    volumes:
+#      - tutorial-share-acs-volume:/usr/local/tomcat/alf_data
+#    depends_on:
+#      - tutorial-share-postgres
+#  tutorial-share-postgres:
+#    image: postgres:9.6
+#    environment:
+#      POSTGRES_DB: alfresco
+#      POSTGRES_USER: alfresco
+#      POSTGRES_PASSWORD: alfresco
+#    command: postgres -c max_connections=300 -c log_min_messages=LOG
+#    ports:
+#      - "${postgres.port}:5432"
+#    volumes:
+#      - tutorial-share-db-volume:/var/lib/postgresql/data
+#  tutorial-share-ass:
+#    image: alfresco/alfresco-search-services:1.2.0
+#    environment:
+#      SOLR_ALFRESCO_HOST: tutorial-share-acs
+#      SOLR_ALFRESCO_PORT: 8080
+#      SOLR_SOLR_HOST: tutorial-share-ass
+#      SOLR_SOLR_PORT: 8983
+#      SOLR_CREATE_ALFRESCO_DEFAULTS: alfresco,archive
+#    ports:
+#      - "8983:8983"
+#    volumes:
+#      - tutorial-share-ass-volume:/opt/alfresco-search-services/contentstore
+#      - tutorial-share-ass-volume:/opt/alfresco-search-services/data
+#volumes:
+#  tutorial-share-acs-volume:
+#    external: true
+#  tutorial-share-db-volume:
+#    external: true
+#  tutorial-share-ass-volume:
+#    external: true

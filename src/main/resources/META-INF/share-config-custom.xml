@@ -1,0 +1,450 @@
+<!-- Share configuration related to this particular Share module extension, 
+	such as: - Doclib action config - Form config - Aspect and Type config - 
+	Advanced Search Note. Any configuration related to the whole Share.war webapp 
+	(i.e. not specific to this share extension) should be placed in the environment 
+	specific config file: alfresco/tomcat/shared/classes/alfresco/web-extension/share-config-custom.xml -->
+<alfresco-config>
+	<!-- Document Library config section -->
+	<config evaluator="string-compare" condition="DocumentLibrary">
+		<aspects>
+			<!-- Aspects that a user can see -->
+			<visible>
+				<aspect name="civ:uniqueStructures" />
+				<aspect name="civ:uniqueUnits" />
+				<aspect name="civ:uniqueAbilities" />
+				<aspect name="civ:errorAspect" />
+				<aspect name="civ:playedCiv" />
+
+
+			</visible>
+			<!-- Aspects that a user can add. Same as "visible" if left empty -->
+			<addable>
+			</addable>
+
+			<!-- Aspects that a user can remove. Same as "visible" if left empty -->
+			<removeable>
+			</removeable>
+		</aspects>
+		<types>
+			<type name="cm:content">
+				<subtype name="civ:civilization" />
+				<subtype name="civ:leader" />
+			</type>
+		</types>
+	</config>
+
+
+	<config evaluator="aspect" condition="civ:uniqueAbilities">
+		<forms>
+			<form>
+				<field-visibility>
+					<show id="civ:uniqueAbilitiesName" />
+					<show id="civ:uniqueAbilitiesBonus" />
+				</field-visibility>
+				<appearance>
+					<field id="civ:uniqueAbilitiesName"
+						label-id="prop.civ_uniqueAbilitiesName" />
+					<field id="civ:uniqueAbilitiesBonus"
+						label-id="prop.civ_uniqueAbilitiesBonus" />
+				</appearance>
+			</form>
+		</forms>
+	</config>
+
+
+	<config evaluator="aspect" condition="civ:uniqueStructures">
+		<forms>
+			<form>
+				<field-visibility>
+					<show id="civ:uniqueStructuresName" />
+					<show id="civ:uniqueStructuresBonus" />
+					<show id="civ:uniqueStructuresAges" />
+
+				</field-visibility>
+				<appearance>
+					<field id="civ:uniqueStructuresName"
+						label-id="prop.civ_uniqueStructuresName" />
+					<field id="civ:uniqueStructuresBonus"
+						label-id="prop.civ_uniqueStructuresBonus" />
+					<field id="civ:uniqueStructuresAges"
+						label-id="prop.civ_uniqueStructuresAges" />
+				</appearance>
+			</form>
+		</forms>
+	</config>
+
+	<config evaluator="aspect" condition="civ:uniqueUnits">
+		<forms>
+			<form>
+				<field-visibility>
+					<show id="civ:uniqueUnitsName" />
+					<show id="civ:uniqueUnitsBonus" />
+					<show id="civ:uniqueUnitsAges" />
+				</field-visibility>
+				<appearance>
+					<field id="civ:uniqueUnitsName"
+						label-id="prop.civ_uniqueUnitsName" />
+					<field id="civ:uniqueUnitsBonus"
+						label-id="prop.civ_uniqueUnitsBonus" />
+					<field id="civ:uniqueUnitsAges"
+						label-id="prop.civ_uniqueUnitsAges" />
+				</appearance>
+			</form>
+		</forms>
+	</config>
+
+	<config evaluator="aspect" condition="civ:playedCiv">
+		<forms>
+			<form>
+				<field-visibility>
+					<show id="civ:isPlayed" />
+					<show id="civ:numberOfTurns" />
+					<show id="civ:typeOfVictory" />
+					<show id="civ:dateOfPlay" />
+				</field-visibility>
+				<appearance>
+					<field id="civ:isPlayed" 
+					label-id="prop.civ_isPlayed" />
+					<field id="civ:numberOfTurns"
+						label-id="prop.civ_numberOfTurns" />
+					<field id="civ:typeOfVictory"
+						label-id="prop.civ_typeOfVictory" />
+					<field id="civ:dateOfPlay" 
+					label-id="prop.civ_dateOfPlay" />
+				</appearance>
+			</form>
+		</forms>
+	</config>
+
+	<config evaluator="aspect" condition="civ:errorAspect">
+		<forms>
+			<form>
+				<field-visibility>
+					<show id="civ:errorAspectString" />
+				</field-visibility>
+				<appearance>
+					<field id="civ:errorAspectString"
+						label-id="prop.civ_errorAspectString" />
+				</appearance>
+			</form>
+		</forms>
+	</config>
+
+	<!--civ:civilizaiton type (existing nodes) -->
+	<config evaluator="node-type" condition="civ:civilization">
+		<forms>
+			<!-- Default form configuration for the sc:whitepaper type -->
+			<form>
+				<field-visibility>
+					<show id="cm:name" />
+					<show id="mimetype" />
+					<show id="size" for-mode="view" />
+					<show id="cm:modifier" for-mode="view" />
+					<show id="cm:modified" for-mode="view" />
+
+					<!-- civ:leader -->
+					<show id="civ:relatedLeaders" />
+				</field-visibility>
+				<appearance>
+					<field id="cm:name">
+						<control>
+							<control-param name="maxLength">255</control-param>
+						</control>
+					</field>
+					<field id="mimetype">
+						<control
+							template="/org/alfresco/components/form/controls/mimetype.ftl" />
+					</field>
+					<field id="size">
+						<control
+							template="/org/alfresco/components/form/controls/size.ftl" />
+					</field>
+					
+				</appearance>
+			</form>
+		</forms>
+	</config>
+
+
+	<!-- civ:civilization type (new nodes) -->
+	<config evaluator="model-type" condition="civ:civilization">
+		<forms>
+			<!-- Search form -->
+			<form id="search">
+				<field-visibility>
+					<show id="cm:name" />
+					<show id="mimetype" />
+					<show id="cm:modified" />
+					<show id="cm:modifier" />
+					<!-- civ:uniqueAbilities -->
+					<show id="civ:uniqueAbilitiesName" />
+					<show id="civ:uniqueAbilitiesBonus" />
+					<!-- civ:uniqueStructures -->
+					<show id="civ:uniqueStructuresName" />
+					<show id="civ:uniqueStructuresBonus" />
+					<show id="civ:uniqueStructuresAges" />
+					<!-- civ:uniqueUnits -->
+					<show id="civ:uniqueUnitsName" />
+					<show id="civ:uniqueUnitsBonus" />
+					<show id="civ:uniqueStructuresAges" />
+					<!-- civ:errorAspect -->
+					<show id="errorAspectString" />
+					<!-- civ:playedCiv -->
+					<show id="playedCiv" />
+					<!-- civ:leader -->
+					<show id="civ:relatedLeaders" />
+				</field-visibility>
+				<appearance>
+					<field id="mimetype">
+						<control
+							template="/org/alfresco/components/form/controls/mimetype.ftl" />
+					</field>
+					<field id="cm:modifier">
+						<control>
+							<control-param name="forceEditable">true</control-param>
+						</control>
+					</field>
+					<field id="cm:modified">
+						<control
+							template="/org/alfresco/components/form/controls/daterange.ftl" />
+					</field>
+					<!-- civ:uniqueAbilities -->
+					<field id="civ:uniqueAbilitiesName"
+						label-id="prop.civ_uniqueAbilitiesName">
+						<control
+							template="/org/alfresco/components/form/controls/textfield.ftl" />
+					</field>
+					<field id="civ:uniqueAbilitiesBonus"
+						label-id="prop.civ_uniqueAbilitiesBonus">
+						<control
+							template="/org/alfresco/components/form/controls/textfield.ftl" />
+					</field>
+					<!-- civ:uniqueStructures -->
+					<field id="civ:uniqueStructuresName"
+						label-id="prop.civ_uniqueStructuresName">
+						<control
+							template="/org/alfresco/components/form/controls/checkbox.ftl" />
+					</field>
+					<field id="civ:uniqueStructuresBonus"
+						label-id="prop.civ_uniqueStructuresBonus">
+						<control
+							template="/org/alfresco/components/form/controls/daterange.ftl" />
+					</field>
+					<field id="civ:uniqueStructuresAges"
+						label-id="prop.civ_uniqueStructuresAges">
+						<control
+							template="/org/alfresco/components/form/controls/daterange.ftl" />
+					</field>
+					<!-- civ:uniqueUnits -->
+					<field id="civ:uniqueUnitsName"
+						label-id="prop.civ_uniqueUnitssName">
+						<control
+							template="/org/alfresco/components/form/controls/daterange.ftl" />
+					</field>
+					<field id="civ:uniqueUnitsBonus"
+						label-id="prop.civ_uniqueUnitsBonus">
+						<control
+							template="/org/alfresco/components/form/controls/daterange.ftl" />
+					</field>
+					<field id="civ:uniqueUnitsAges"
+						label-id="prop.civ_uniqueUnitsAges">
+						<control
+							template="/org/alfresco/components/form/controls/daterange.ftl" />
+					</field>
+					<field id="civ:errorAspect"
+						label-id="prop.civ_errorAspectString">
+						<control
+							template="/org/alfresco/components/form/controls/daterange.ftl" />
+					</field>
+					<field id="civ:playedCiv"
+						label-id="prop.civ_playedCiv">
+						<control
+							template="/org/alfresco/components/form/controls/daterange.ftl" />
+					</field>
+					<field id="civ:relatedLeaders"
+						label-id="assoc.civ_relatedLeaders" />
+				</appearance>
+			</form>
+		</forms>
+	</config>
+
+
+
+
+
+
+
+	<!--civ:leader type (existing nodes) -->
+	<config evaluator="node-type" condition="civ:leader">
+		<forms>
+			<!-- Default form configuration for the sc:whitepaper type -->
+			<form>
+				<field-visibility>
+					<show id="cm:name" />
+					<show id="mimetype" />
+					<show id="size" for-mode="view" />
+					<show id="cm:modifier" for-mode="view" />
+					<show id="cm:modified" for-mode="view" />
+
+					<!-- civ:leader -->
+					<show id="civ:relatedCiv" />
+
+				</field-visibility>
+				<appearance>
+					<field id="cm:name">
+						<control>
+							<control-param name="maxLength">255</control-param>
+						</control>
+					</field>
+					<field id="mimetype">
+						<control
+							template="/org/alfresco/components/form/controls/mimetype.ftl" />
+					</field>
+					<field id="size">
+						<control
+							template="/org/alfresco/components/form/controls/size.ftl" />
+					</field>
+				</appearance>
+			</form>
+		</forms>
+	</config>
+
+
+	<!-- civ:leader type (new nodes) -->
+	<config evaluator="model-type" condition="civ:leader">
+		<forms>
+			<!-- Search form -->
+			<form id="search">
+				<field-visibility>
+					<show id="cm:name" />
+					<show id="mimetype" />
+					<show id="cm:modified" />
+					<show id="cm:modifier" />
+					<!-- civ:uniqueAbilities -->
+					<show id="civ:uniqueAbilitiesName" />
+					<show id="civ:uniqueAbilitiesBonus" />
+					<!-- civ:uniqueStructures -->
+					<show id="civ:uniqueStructuresName" />
+					<show id="civ:uniqueStructuresName" />
+					<!-- civ:uniqueUnits -->
+					<show id="civ:uniqueUnitsName" />
+					<show id="civ:uniqueUnitsBonus" />
+					<!-- civ:errorAspect -->
+					<show id="civ:errorAspectString" />
+					<!-- civ:leader -->
+					<show id="civ:relatedCiv" />
+
+				</field-visibility>
+				<appearance>
+					<field id="mimetype">
+						<control
+							template="/org/alfresco/components/form/controls/mimetype.ftl" />
+					</field>
+					<field id="cm:modifier">
+						<control>
+							<control-param name="forceEditable">true</control-param>
+						</control>
+					</field>
+					<field id="cm:modified">
+						<control
+							template="/org/alfresco/components/form/controls/daterange.ftl" />
+					</field>
+					<!-- civ:uniqueAbilities -->
+					<field id="civ:uniqueAbilitiesName"
+						label-id="prop.civ_uniqueAbilitiesName">
+						<control
+							template="/org/alfresco/components/form/controls/textfield.ftl" />
+					</field>
+					<field id="civ:uniqueAbilitiesBonus"
+						label-id="prop.civ_uniqueAbilitiesBonus">
+						<control
+							template="/org/alfresco/components/form/controls/textfield.ftl" />
+					</field>
+					<!-- civ:uniqueStructures -->
+					<field id="civ:uniqueStructuresName"
+						label-id="prop.civ_uniqueStructuresName">
+						<control
+							template="/org/alfresco/components/form/controls/checkbox.ftl" />
+					</field>
+					<field id="civ:uniqueStructuresBonus"
+						label-id="prop.civ_uniqueStructuresBonus">
+						<control
+							template="/org/alfresco/components/form/controls/daterange.ftl" />
+					</field>
+					<!-- civ:uniqueUnits -->
+					<field id="civ:uniqueUnitsName"
+						label-id="prop.civ_uniqueUnitssName">
+						<control
+							template="/org/alfresco/components/form/controls/daterange.ftl" />
+					</field>
+					<field id="civ:uniqueUnitsBonus"
+						label-id="prop.civ_uniqueUnitsBonus">
+						<control
+							template="/org/alfresco/components/form/controls/daterange.ftl" />
+					</field>
+					<field id="civ:errorAspect"
+						label-id="prop.civ_errorAspectString">
+						<control
+							template="/org/alfresco/components/form/controls/daterange.ftl" />
+					</field>
+					<!-- civ:relatedCiv -->
+					<field id="civ:relatedCiv"
+						label-id="assoc.civ_relatedCivilization" />
+				</appearance>
+			</form>
+		</forms>
+		
+		<!-- Custom Indicators -->
+    <indicators>
+        <indicator id="civ-isPlayed" index="20">
+            <evaluator>civ.evaluator.doclib.action.isPlayed</evaluator>
+        </indicator>
+    </indicators>
+    
+	</config>
+
+
+	<!-- Actions -->
+	<config evaluator="string-compare" condition="DocLibActions">
+		<actions>
+			<action id="civ-enable-played-civ" type="javascript"
+				label="actions.civ.enable-played-civ" icon="civ-enable-played-civ">
+				<param name="function">onActionSimpleRepoAction</param>
+				<permissions>
+					<permission allow="true">Write</permission>
+				</permissions>
+				<param name="action">enablePlayedCiv</param>
+				<param name="successMessage">message.played-civ.enabled</param>
+				<param name="failureMessage">message.played-civ.failure</param>
+				<evaluator negate="true">civ.evaluator.doclib.action.isPlayed</evaluator>
+				
+			</action>
+			<action id="civ-disabled-played-civ" type="javascript"
+				label="actions.civ-disable-played-civ" icon="civ-disable-played-civ">
+				<param name="function">onActionSimpleRepoAction</param>
+				<permissions>
+					<permission allow="true">Write</permission>
+				</permissions>
+				<param name="action">disablePlayedCiv</param>
+				<param name="successMessage">message.played-civ.disabled</param>
+				<param name="failureMessage">message.played-civ.failure</param>
+				<evaluator>civ.evaluator.doclib.action.isPlayed</evaluator>
+			</action>
+		</actions>
+
+		<actionGroups>
+			<actionGroup id="document-browse">
+				<action index="500" id="civ-enable-played-civ" />
+				<action index="501" id="civ-disabled-played-civ" />
+			</actionGroup>
+			<actionGroup id="document-details">
+				<action index="500" id="civ-enable-played-civ" />
+				<action index="501" id="civ-disabled-played-civ" />
+			</actionGroup>
+		</actionGroups>
+	</config>
+</alfresco-config>
+		
+
+
+
