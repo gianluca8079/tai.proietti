@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Definition of new Model -->
+<model name="civ:civContentModel"
+	xmlns="http://www.alfresco.org/model/dictionary/1.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.alfresco.org/model/dictionary/1.0 modelSchema.xsd">
+	<!-- Optional meta-data about the model -->
+	<description>Tutorial-repo Model</description>
+	<author>Gianluca Proietti De Marchis</author>
+	<version>1.0</version>
+
+	<!-- Imports are required to allow references to definitions in other models -->
+	<imports>
+		<!-- Import Alfresco Dictionary Definitions -->
+		<import uri="http://www.alfresco.org/model/dictionary/1.0"
+			prefix="d" />
+		<!-- Import Alfresco Content Domain Model Definitions -->
+		<import uri="http://www.alfresco.org/model/content/1.0"
+			prefix="cm" />
+	</imports>
+
+	<!-- Introduction of new namespaces defined by this model -->
+	<namespaces>
+		<namespace
+			uri="http://it.tai.proietti.tutorial/civ/content/model/1.0"
+			prefix="civ" />
+	</namespaces>
+
+
+	<constraints>
+		<constraint name="civ:ages" type="LIST">
+			<parameter name="allowedValues">
+				<list>
+					<value>Ancient Era</value>
+					<value>Classical Era</value>
+					<value>Medieval Era</value>
+					<value>Renaissance Era</value>
+					<value>Industrial Era</value>
+					<value>Modern Era</value>
+					<value>Atomic Era</value>
+					<value>Information Era</value>
+					<value>Future Era</value>
+				</list>
+			</parameter>
+		</constraint>
+	</constraints>
+
+	<types>
+		<!-- Civilization -->
+		<type name="civ:civilization">
+			<title>Civilization </title>
+			<parent>cm:content</parent>
+			<properties>
+				<property name="civ:civilizationName">
+					<title> Civilization name </title>
+					<type>d:text</type>
+				</property>
+			</properties>
+			<associations>
+				<association name="civ:relatedLeaders">
+					<title>Related Leaders</title>
+					<source>
+						<mandatory>false</mandatory>
+						<many>true</many>
+					</source>
+					<target>
+						<class>civ:leader</class>
+						<mandatory>false</mandatory>
+						<many>true</many>
+					</target>
+				</association>
+			</associations>
+		</type>
+
+		<type name="civ:leader">
+			<title>Leader</title>
+			<parent>cm:content</parent>
+			<properties>
+				<property name="civ:leaderName">
+					<title>Leader name</title>
+					<type>d:text</type>
+				</property>
+			</properties>
+			<associations>
+				<association name="civ:relatedCiv">
+					<title>Related Civilization</title>
+					<source>
+						<mandatory>false</mandatory>
+						<many>true</many>
+					</source>
+					<target>
+						<class>civ:civilization</class>
+						<mandatory>false</mandatory>
+						<many>true</many>
+					</target>
+				</association>
+			</associations>
+		</type>
+	</types>
+
+	<aspects>
+		<aspect name="civ:uniqueStructures">
+			<title>Unique structures</title>
+			<properties>
+				<property name="civ:uniqueStructuresName">
+					<type>d:text</type>
+					<mandatory>true</mandatory>
+				</property>
+				<property name="civ:uniqueStructuresBonus">
+					<type>d:text</type>
+					<mandatory>true</mandatory>
+					<multiple>true</multiple>
+				</property>
+				<property name="civ:uniqueStructuresAges">
+					<type>d:text</type>
+					<mandatory>true</mandatory>
+					<constraints>
+						<constraint ref="civ:ages" />
+					</constraints>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="civ:uniqueUnits">
+			<title>Unique units </title>
+			<properties>
+				<property name="civ:uniqueUnitsName">
+					<type>d:text</type>
+					<mandatory>true</mandatory>
+				</property>
+				<property name="civ:uniqueUnitsBonus">
+					<type>d:text</type>
+					<mandatory>true</mandatory>
+					<multiple>true</multiple>
+				</property>
+				<property name="civ:uniqueUnitsAges">
+					<type>d:text</type>
+					<mandatory>true</mandatory>
+					<constraints>
+						<constraint ref="civ:ages" />
+					</constraints>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="civ:uniqueAbilities">
+			<title>Unique abilities</title>
+			<properties>
+				<property name="civ:uniqueAbilitiesName">
+					<type>d:text</type>
+					<mandatory>true</mandatory>
+				</property>
+				<property name="civ:uniqueAbilitiesBonus">
+					<type>d:text</type>
+					<mandatory>true</mandatory>
+					<multiple>true</multiple>
+				</property>
+			</properties>
+		</aspect>
+		
+		
+		<aspect name="civ:errorAspect">
+			<title>Error Aspect</title>
+			<properties>
+				<property name="civ:errorAspectString">
+					<type>d:text</type>
+				</property>
+			</properties>
+		</aspect>
+		
+		<aspect name="civ:playedCiv">
+			<title>PlayedCiv Aspect</title>
+			<properties>
+			<property name="civ:isPlayed">
+					<type>d:boolean</type>
+					<default>false</default>
+				</property>
+				<property name="civ:numberOfTurns">
+					<type>d:text</type>
+				</property>
+				<property name="civ:typeOfVictory">
+					<type>d:text</type>
+				</property>
+				<property name="civ:dateOfPlay">
+                    <type>d:date</type>
+                </property>
+			</properties>
+		</aspect>
+		
+		
+	</aspects>
+</model>

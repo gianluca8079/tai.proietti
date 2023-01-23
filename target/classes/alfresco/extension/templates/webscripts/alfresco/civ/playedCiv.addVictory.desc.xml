@@ -1,0 +1,10 @@
+<webscript>
+  <shortname>activate the isPlayed button</shortname>
+  <description>Adds metadata about the victory of a played civ</description>
+  <url>/civ/Victory?id={id}&amp;user={user?}</url>
+  <url>/civ/Victory.json?id={id}&amp;user={user?}</url>
+  <url>/civ/Victory.html?id={id}&amp;user={user?}</url>
+  <format default="json">extension</format>
+  <authentication>guest</authentication>
+  <transaction>none</transaction>
+</webscript>

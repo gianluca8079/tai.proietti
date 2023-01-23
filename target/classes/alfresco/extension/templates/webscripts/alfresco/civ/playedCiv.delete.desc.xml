@@ -1,0 +1,9 @@
+<webscript>
+  <shortname>Delete Content playedCiv</shortname>
+  <description>Deletes data for the specified node</description>
+  <url>/civ/playedCiv/delete?id={id}</url>
+  <url>/civ/playedCiv/delete.html?id={id}</url>
+  <format default="html">extension</format>
+  <authentication>admin</authentication>
+  <transaction>required</transaction>
+</webscript>

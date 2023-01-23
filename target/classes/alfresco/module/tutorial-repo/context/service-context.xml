@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Licensed to the Apache Software Foundation (ASF) under one or more contributor 
+	license agreements. See the NOTICE file distributed with this work for additional 
+	information regarding copyright ownership. The ASF licenses this file to 
+	You under the Apache License, Version 2.0 (the "License"); you may not use 
+	this file except in compliance with the License. You may obtain a copy of 
+	the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required 
+	by applicable law or agreed to in writing, software distributed under the 
+	License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS 
+	OF ANY KIND, either express or implied. See the License for the specific 
+	language governing permissions and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+
+
+	
+	<bean id="createFolderCiv"
+		class="tai.tutorial.proietti.platformsample.CreateFolderCiv"
+		parent="action-executer">
+		<property name="fileFolderService">
+			<ref bean="FileFolderService" />
+		</property>
+		<property name="nodeService">
+			<ref bean="NodeService" />
+		</property>
+	</bean>
+
+	<bean id="playedCiv"
+		class="tai.tutorial.proietti.platformsample.PlayedCiv"
+		parent="action-executer">
+		<property name="nodeService">
+			<ref bean="NodeService" />
+		</property>
+	</bean>
+
+
+	<bean id="enablePlayedCiv"
+		class="tai.tutorial.proietti.platformsample.EnablePlayedCiv"
+		parent="playedCiv">
+		<property name="publicAction">
+			<value>false</value>
+		</property>
+	</bean>
+	<bean id="disablePlayedCiv"
+		class="tai.tutorial.proietti.platformsample.DisablePlayedCiv"
+		parent="playedCiv">
+		<property name="publicAction">
+			<value>false</value>
+		</property>
+	</bean>
+
+
+	<bean id="victory"
+		class="tai.tutorial.proietti.platformsample.Victory"
+		init-method="init">
+		<property name="nodeService">
+			<ref bean="NodeService" />
+		</property>
+		<property name="policyComponent">
+			<ref bean="policyComponent" />
+		</property>
+	</bean>
+
+
+	<bean id="playedCivBean"
+		class="tai.tutorial.proietti.beans.PlayedCivBean">
+		<property name="nodeService">
+			<ref bean="NodeService" />
+		</property>
+	</bean>
+
+	<bean id="webscript.tai.tutorial.proietti.playedCivBean.post"
+		class="tai.tutorial.proietti.scripts.PostPlayedCiv" parent="webscript">
+		<property name="playedCivBean">
+			<ref bean="playedCivBean" />
+		</property>
+		<property name="nodeService">
+			<ref bean="NodeService" />
+		</property>
+	</bean>
+
+
+
+
+
+	<bean id="webscript.tai.tutorial.proietti.playedCiv.get"
+		class="tai.tutorial.proietti.scripts.GetPlayedCiv" parent="webscript">
+		<property name="nodeService">
+			<ref bean="NodeService" />
+		</property>
+	</bean>
+
+
+	<bean id="DeletePlayedCivBean"
+		class="tai.tutorial.proietti.beans.DeletePlayedCivBean">
+		<property name="nodeService">
+			<ref bean="NodeService" />
+		</property>
+	</bean>
+
+	<bean id="webscript.tai.tutorial.proietti.playedCiv.delete"
+		class="tai.tutorial.proietti.scripts.DeletePlayedCiv"
+		parent="webscript">
+		<property name="DeletePlayedCivBean">
+			<ref bean="DeletePlayedCivBean" />
+		</property>
+		<property name="nodeService">
+			<ref bean="NodeService" />
+		</property>
+	</bean>
+	<bean id="AddVictoryPlayedCivBean" class="tai.tutorial.proietti.beans.AddVictoryPlayedCivBean">
+		<property name="nodeService">
+			<ref bean="NodeService" />
+		</property>
+	</bean>
+
+	<bean id="webscript.tai.tutorial.proietti.playedCiv"
+		class="tai.tutorial.proietti.scripts.AddVictoryPlayedCiv" parent="webscript">
+		<property name="AddVictoryPlayedCivBean">
+			<ref bean="AddVictoryPlayedCivBean" />
+		</property>
+		<property name="nodeService">
+			<ref bean="NodeService" />
+		</property>
+	</bean>
+</beans>
+    
+    
+    
+    
+    
+     
+
+

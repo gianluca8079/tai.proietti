@@ -1,0 +1,10 @@
+<webscript>
+  <shortname>Get playedCiv typeOfVictory and date</shortname>
+  <description>Returns metadata for the specified civ</description>
+  <url>/civ/playedCiv?id={id}&amp;user={user?}</url>
+  <url>/civ/playedCiv.json?id={id}&amp;user={user?}</url>
+  <url>/civ/playedCiv.html?id={id}&amp;user={user?}</url>
+  <format default="json">extension</format>
+  <authentication>guest</authentication>
+  <transaction>none</transaction>
+</webscript>

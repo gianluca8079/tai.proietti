@@ -1,0 +1,10 @@
+<webscript>
+  <shortname>Post PlayedCiv metadata</shortname>
+  <description>Sets meta data for Played civ</description>
+  <url>/civ/playedCiv</url>
+  <url>/civ/playedCiv.json</url>
+  <url>/civ/playedCiv.html</url>
+  <format default="json">extension</format>
+  <authentication runas="admin">guest</authentication>
+  <transaction>required</transaction>
+</webscript>

@@ -1,0 +1,6 @@
+{"playeCiv" : 
+        {
+         "node" : "${node}",
+         
+        }
+}
